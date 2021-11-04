@@ -17,9 +17,10 @@ import android.widget.Toast
 import android.os.Looper
 import android.util.Log
 import com.up.ecomm.data.PutData
+import java.util.regex.Pattern
 
 
-class Register : AppCompatActivity() {
+class Register : AppCompatActivity(), View.OnClickListener {
     private var textInputEditTextFullname: TextInputEditText? = null
     var textInputEditTextPassword:TextInputEditText? = null
     var textInputEditTextUsername:TextInputEditText? = null
@@ -27,6 +28,15 @@ class Register : AppCompatActivity() {
     private var btnSignUp: Button? = null
     var loginText: TextView? = null
     var progressBar: ProgressBar? = null
+//    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
+//        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+//                "\\@" +
+//                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+//                "(" +
+//                "\\." +
+//                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+//                ")+"
+//    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -90,10 +100,37 @@ class Register : AppCompatActivity() {
                     }
                 }
             } else {
-                Toast.makeText(applicationContext, "All fields required!", Toast.LENGTH_SHORT)
-                    .show()
+                validate()
             }
         }
 
+    }
+//    private fun isValidString(str: String): Boolean{
+//        return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
+//    }
+
+    private fun validate() :Boolean {
+        if (textInputEditTextFullname?.text?.trim().toString().isEmpty()) {
+            textInputEditTextFullname?.error = "Full Name is required"
+            return false
+        } else if(textInputEditTextEmail?.text?.trim().toString().isEmpty()) {
+            textInputEditTextEmail?.error = "Email address is required"
+        } else if(textInputEditTextUsername?.text?.trim().toString().isEmpty()) {
+            textInputEditTextUsername?.error = "Username is required"
+        } else if(textInputEditTextPassword?.text?.trim().toString().isEmpty()){
+            textInputEditTextPassword?.error = "Password is required"
+        }
+
+        return true
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.btn_register-> {
+                if (validate()) {
+                    Toast.makeText(applicationContext, "Done", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 }

@@ -15,12 +15,13 @@ import com.google.android.material.textfield.TextInputEditText
 import com.up.ecomm.R
 import com.up.ecomm.data.PutData
 
-class Login : AppCompatActivity() {
+class Login : AppCompatActivity(), View.OnClickListener {
     private var textInputEditTextPassword: TextInputEditText? = null
     private var textInputEditTextUsername: TextInputEditText? = null
     private var btnSignIn: Button? = null
     private var registerText: TextView? = null
     private var progressBar: ProgressBar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -76,8 +77,28 @@ class Login : AppCompatActivity() {
                     }
                 }
             } else {
-                Toast.makeText(applicationContext, "All fields required!", Toast.LENGTH_SHORT)
-                    .show()
+                validate()
+            }
+        }
+    }
+
+    private fun validate() :Boolean {
+        if(textInputEditTextUsername?.text?.trim().toString().isEmpty()) {
+            textInputEditTextUsername?.error = "Username is required"
+            return false
+        } else if(textInputEditTextPassword?.text?.trim().toString().isEmpty()){
+            textInputEditTextPassword?.error = "Password is required"
+        }
+        return true
+    }
+
+
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.btn_login-> {
+                if (validate()) {
+                    Toast.makeText(applicationContext, "Done", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

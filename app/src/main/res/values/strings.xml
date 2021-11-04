@@ -7,7 +7,7 @@
     <string name="password">Password</string>
     <string name="register">Register</string>
     <string name="full_name">Full Name</string>
-    <string name="email">email</string>
+    <string name="email">Email</string>
     <string name="sign_up">Sign Up</string>
     <string name="login_here">Already have an account? <u>Login</u></string>
 </resources>
