@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Ecomm</string>
+    <string name="login">Login</string>
+    <string name="create_an_account">Create an account? <u>Register</u></string>
+    <string name="username">Username</string>
+    <string name="sign_in">Login</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login_here">Already have an account? <u>Login</u></string>
+</resources>
