@@ -28,10 +28,10 @@
         app:layout_editor_absoluteX="0dp">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutUsername"
+            android:id="@+id/textInputLayoutEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/username"
+            android:hint="@string/email"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,12 +40,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/usernameLogin"
+                android:id="@+id/emailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_person"
+                android:drawableEnd="@drawable/ic_email"
                 tools:targetApi="jelly_bean"
-                android:drawableRight="@drawable/ic_person" />
+                android:drawableRight="@drawable/ic_email" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,7 +57,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsername"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
             app:layout_editor_absoluteX="0dp"
             >
             <com.google.android.material.textfield.TextInputEditText

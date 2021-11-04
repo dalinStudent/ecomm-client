@@ -17,34 +17,30 @@ import android.widget.Toast
 import android.os.Looper
 import android.util.Log
 import com.up.ecomm.data.PutData
-import java.util.regex.Pattern
 
 
 class Register : AppCompatActivity(), View.OnClickListener {
-    private var textInputEditTextFullname: TextInputEditText? = null
+    var textInputEditTextFirstName: TextInputEditText? = null
+    var textInputEditTextLastName:TextInputEditText? = null
+    private var textInputEditTextEmail:TextInputEditText? = null
+    private var textInputEditTextAddress:TextInputEditText? = null
+    var textInputEditTextGender:TextInputEditText? = null
+    var textInputEditTextPhone:TextInputEditText? = null
     var textInputEditTextPassword:TextInputEditText? = null
-    var textInputEditTextUsername:TextInputEditText? = null
-    var textInputEditTextEmail:TextInputEditText? = null
     private var btnSignUp: Button? = null
     var loginText: TextView? = null
     var progressBar: ProgressBar? = null
-//    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
-//        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-//                "\\@" +
-//                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-//                "(" +
-//                "\\." +
-//                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-//                ")+"
-//    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        textInputEditTextFullname = findViewById(R.id.fullname)
-        textInputEditTextUsername = findViewById(R.id.username)
-        textInputEditTextPassword = findViewById(R.id.password)
+        textInputEditTextFirstName = findViewById(R.id.first_name)
+        textInputEditTextLastName = findViewById(R.id.last_name)
         textInputEditTextEmail = findViewById(R.id.email)
+        textInputEditTextAddress = findViewById(R.id.address)
+        textInputEditTextGender = findViewById(R.id.gender)
+        textInputEditTextPhone = findViewById(R.id.phone)
+        textInputEditTextPassword = findViewById(R.id.password)
         loginText = findViewById(R.id.login_text)
         btnSignUp = findViewById(R.id.btn_register)
         progressBar = findViewById(R.id.progress_register)
@@ -56,28 +52,37 @@ class Register : AppCompatActivity(), View.OnClickListener {
         }
 
         btnSignUp!!.setOnClickListener {
-            val fullname: String = textInputEditTextFullname?.text?.trim().toString()
-            val username: String = textInputEditTextUsername?.text?.trim().toString()
-            val password: String = textInputEditTextPassword?.text?.trim().toString()
+            val firstName: String = textInputEditTextFirstName?.text?.trim().toString()
+            val lastName: String = textInputEditTextLastName?.text?.trim().toString()
             val email: String = textInputEditTextEmail?.text?.trim().toString()
-            if (fullname != "" && username != "" && password != "" && email != "") {
+            val address: String = textInputEditTextAddress?.text?.trim().toString()
+            val phone: String = textInputEditTextAddress?.text?.trim().toString()
+            val gender: String = textInputEditTextAddress?.text?.trim().toString()
+            val password: String = textInputEditTextPassword?.text?.trim().toString()
+            if (firstName != "" && lastName != "" && password != "" && email != "" && address != "" && phone != "" && gender != "") {
                 progressBar!!.visibility = View.VISIBLE
                 val handler = Handler(Looper.getMainLooper())
                 handler.post {
 
                     //Starting Write and Read data with URL
                     //Creating array for parameters
-                    val field = arrayOfNulls<String>(4)
-                    field[0] = "fullname"
-                    field[1] = "username"
+                    val field = arrayOfNulls<String>(7)
+                    field[0] = "first_name"
+                    field[1] = "last_name"
                     field[2] = "password"
                     field[3] = "email"
+                    field[4] = "address"
+                    field[5] = "phone"
+                    field[6] = "gender"
                     //Creating array for data
-                    val data = arrayOfNulls<String>(4)
-                    data[0] = fullname
-                    data[1] = username
+                    val data = arrayOfNulls<String>(7)
+                    data[0] = firstName
+                    data[1] = lastName
                     data[2] = password
                     data[3] = email
+                    data[4] = address
+                    data[5] = phone
+                    data[6] = gender
                     val putData =
                         PutData("http://192.168.1.10/server/signup.php", "POST", field, data)
                     if (putData.startPut()) {
@@ -110,15 +115,27 @@ class Register : AppCompatActivity(), View.OnClickListener {
 //    }
 
     private fun validate() :Boolean {
-        if (textInputEditTextFullname?.text?.trim().toString().isEmpty()) {
-            textInputEditTextFullname?.error = "Full Name is required"
+        if (textInputEditTextFirstName?.text?.trim().toString().isEmpty()) {
+            textInputEditTextFirstName?.error = "First Name is required"
+            return false
+        } else if(textInputEditTextLastName?.text?.trim().toString().isEmpty()) {
+            textInputEditTextLastName?.error = "Last Name is required"
             return false
         } else if(textInputEditTextEmail?.text?.trim().toString().isEmpty()) {
             textInputEditTextEmail?.error = "Email address is required"
-        } else if(textInputEditTextUsername?.text?.trim().toString().isEmpty()) {
-            textInputEditTextUsername?.error = "Username is required"
+            return false
+        } else if(textInputEditTextAddress?.text?.trim().toString().isEmpty()) {
+            textInputEditTextAddress?.error = "Address is required"
+            return false
+        } else if(textInputEditTextPhone?.text?.trim().toString().isEmpty()){
+            textInputEditTextPhone?.error = "Phone is required"
+            return false
+        } else if(textInputEditTextGender?.text?.trim().toString().isEmpty()){
+            textInputEditTextGender?.error = "Gender is required"
+            return false
         } else if(textInputEditTextPassword?.text?.trim().toString().isEmpty()){
             textInputEditTextPassword?.error = "Password is required"
+            return false
         }
 
         return true

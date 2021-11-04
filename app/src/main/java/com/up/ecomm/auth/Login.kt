@@ -17,7 +17,7 @@ import com.up.ecomm.data.PutData
 
 class Login : AppCompatActivity(), View.OnClickListener {
     private var textInputEditTextPassword: TextInputEditText? = null
-    private var textInputEditTextUsername: TextInputEditText? = null
+    private var textInputEditTextEmail: TextInputEditText? = null
     private var btnSignIn: Button? = null
     private var registerText: TextView? = null
     private var progressBar: ProgressBar? = null
@@ -26,7 +26,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        textInputEditTextUsername = findViewById(R.id.usernameLogin)
+        textInputEditTextEmail = findViewById(R.id.emailLogin)
         textInputEditTextPassword = findViewById(R.id.passwordLogin)
         registerText = findViewById(R.id.register_text)
         btnSignIn = findViewById(R.id.btn_login)
@@ -39,9 +39,9 @@ class Login : AppCompatActivity(), View.OnClickListener {
         }
 
         btnSignIn!!.setOnClickListener {
-            val username: String = textInputEditTextUsername?.text?.trim().toString()
+            val email: String = textInputEditTextEmail?.text?.trim().toString()
             val password: String = textInputEditTextPassword?.text?.trim().toString()
-            if (username != "" && password != "") {
+            if (email != "" && password != "") {
                 progressBar!!.visibility = View.VISIBLE
                 val handler = Handler(Looper.getMainLooper())
                 handler.post {
@@ -49,11 +49,11 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     //Starting Write and Read data with URL
                     //Creating array for parameters
                     val field = arrayOfNulls<String>(2)
-                    field[0] = "username"
+                    field[0] = "email"
                     field[1] = "password"
                     //Creating array for data
                     val data = arrayOfNulls<String>(2)
-                    data[0] = username
+                    data[0] = email
                     data[1] = password
                     val putData =
                         PutData("http://192.168.1.10/server/login.php", "POST", field, data)
@@ -83,8 +83,8 @@ class Login : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun validate() :Boolean {
-        if(textInputEditTextUsername?.text?.trim().toString().isEmpty()) {
-            textInputEditTextUsername?.error = "Username is required"
+        if(textInputEditTextEmail?.text?.trim().toString().isEmpty()) {
+            textInputEditTextEmail?.error = "Email is required"
             return false
         } else if(textInputEditTextPassword?.text?.trim().toString().isEmpty()){
             textInputEditTextPassword?.error = "Password is required"
