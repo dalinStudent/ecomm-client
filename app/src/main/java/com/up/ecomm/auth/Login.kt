@@ -60,12 +60,13 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     data[0] = email
                     data[1] = password
                     val putData =
-                        PutData("http://192.168.1.27:8000/api/login", "POST", field, data)
+                        PutData("http://192.168.1.10:8000/api/login", "POST", field, data)
                     if (putData.startPut()) {
                         if (putData.onComplete()) {
                             progressBar!!.visibility = View.GONE
                             val result = putData.result
-                            if (result != null) {
+
+                            if (statusCode == 201) {
                                 val intent = Intent(applicationContext, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
@@ -73,7 +74,7 @@ class Login : AppCompatActivity(), View.OnClickListener {
                                 Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT)
                                     .show()
                             }
-                            Log.i("PutData", result)
+//                            Log.i("PutData", result)
                         }
                     }
                 }

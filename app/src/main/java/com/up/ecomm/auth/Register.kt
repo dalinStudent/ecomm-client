@@ -16,6 +16,7 @@ import android.widget.Toast
 
 import android.os.Looper
 import android.util.Log
+import com.up.ecomm.MainActivity
 import com.up.ecomm.data.PutData
 
 
@@ -24,9 +25,9 @@ class Register : AppCompatActivity(), View.OnClickListener {
     var textInputEditTextLastName:TextInputEditText? = null
     private var textInputEditTextEmail:TextInputEditText? = null
     private var textInputEditTextAddress:TextInputEditText? = null
-    var textInputEditTextGender:TextInputEditText? = null
     var textInputEditTextPhone:TextInputEditText? = null
-    var textInputEditTextPassword:TextInputEditText? = null
+    private var textInputEditTextPassword:TextInputEditText? = null
+    var textInputEditTextPasswordConfirm:TextInputEditText? = null
     private var btnSignUp: Button? = null
     var loginText: TextView? = null
     var progressBar: ProgressBar? = null
@@ -38,9 +39,9 @@ class Register : AppCompatActivity(), View.OnClickListener {
         textInputEditTextLastName = findViewById(R.id.last_name)
         textInputEditTextEmail = findViewById(R.id.email)
         textInputEditTextAddress = findViewById(R.id.address)
-        textInputEditTextGender = findViewById(R.id.gender)
         textInputEditTextPhone = findViewById(R.id.phone)
         textInputEditTextPassword = findViewById(R.id.password)
+        textInputEditTextPasswordConfirm = findViewById(R.id.cm_password)
         loginText = findViewById(R.id.login_text)
         btnSignUp = findViewById(R.id.btn_register)
         progressBar = findViewById(R.id.progress_register)
@@ -56,51 +57,45 @@ class Register : AppCompatActivity(), View.OnClickListener {
             val lastName: String = textInputEditTextLastName?.text?.trim().toString()
             val email: String = textInputEditTextEmail?.text?.trim().toString()
             val address: String = textInputEditTextAddress?.text?.trim().toString()
-            val phone: String = textInputEditTextAddress?.text?.trim().toString()
-            val gender: String = textInputEditTextAddress?.text?.trim().toString()
+            val phone: String = textInputEditTextPhone?.text?.trim().toString()
             val password: String = textInputEditTextPassword?.text?.trim().toString()
-            if (firstName != "" && lastName != "" && password != "" && email != "" && address != "" && phone != "" && gender != "") {
+            if (firstName != "" && lastName != "" && password != "" && email != "" && address != "" && phone != "") {
                 progressBar!!.visibility = View.VISIBLE
                 val handler = Handler(Looper.getMainLooper())
                 handler.post {
 
                     //Starting Write and Read data with URL
                     //Creating array for parameters
-                    val field = arrayOfNulls<String>(7)
+                    val field = arrayOfNulls<String>(6)
                     field[0] = "first_name"
                     field[1] = "last_name"
-                    field[2] = "password"
-                    field[3] = "email"
-                    field[4] = "address"
-                    field[5] = "phone"
-                    field[6] = "gender"
+                    field[2] = "email"
+                    field[3] = "address"
+                    field[4] = "phone_number"
+                    field[5] = "password"
                     //Creating array for data
-                    val data = arrayOfNulls<String>(7)
+                    val data = arrayOfNulls<String>(6)
                     data[0] = firstName
                     data[1] = lastName
-                    data[2] = password
-                    data[3] = email
-                    data[4] = address
-                    data[5] = phone
-                    data[6] = gender
+                    data[2] = email
+                    data[3] = address
+                    data[4] = phone
+                    data[5] = password
                     val putData =
-                        PutData("http://192.168.1.10/server/signup.php", "POST", field, data)
+                        PutData("http://192.168.1.10:8000/api/register", "POST", field, data)
                     if (putData.startPut()) {
                         if (putData.onComplete()) {
                             progressBar!!.visibility = View.GONE
                             val result = putData.result
-                            if (result == "Sign Up Success") {
-                                val intent =
-                                    Intent(applicationContext, Login::class.java)
+                            if (result != null) {
+                                val intent = Intent(applicationContext, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {
                                 Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT)
                                     .show()
                             }
-                            if (result != null) {
-                                Log.i("PutData", result)
-                            }
+                            Log.i("PutData", result)
                         }
                     }
                 }
@@ -110,9 +105,6 @@ class Register : AppCompatActivity(), View.OnClickListener {
         }
 
     }
-//    private fun isValidString(str: String): Boolean{
-//        return EMAIL_ADDRESS_PATTERN.matcher(str).matches()
-//    }
 
     private fun validate() :Boolean {
         if (textInputEditTextFirstName?.text?.trim().toString().isEmpty()) {
@@ -130,11 +122,11 @@ class Register : AppCompatActivity(), View.OnClickListener {
         } else if(textInputEditTextPhone?.text?.trim().toString().isEmpty()){
             textInputEditTextPhone?.error = "Phone is required"
             return false
-        } else if(textInputEditTextGender?.text?.trim().toString().isEmpty()){
-            textInputEditTextGender?.error = "Gender is required"
-            return false
         } else if(textInputEditTextPassword?.text?.trim().toString().isEmpty()){
             textInputEditTextPassword?.error = "Password is required"
+            return false
+        } else if (!textInputEditTextPassword?.equals(textInputEditTextPasswordConfirm)!!) {
+            textInputEditTextPassword?.error = "Password does not match"
             return false
         }
 
