@@ -14,6 +14,10 @@ import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.up.ecomm.R
 import com.up.ecomm.data.PutData
+import com.up.ecomm.MainActivity
+
+
+
 
 class Login : AppCompatActivity(), View.OnClickListener {
     private var textInputEditTextPassword: TextInputEditText? = null
@@ -56,23 +60,20 @@ class Login : AppCompatActivity(), View.OnClickListener {
                     data[0] = email
                     data[1] = password
                     val putData =
-                        PutData("http://192.168.1.10/server/login.php", "POST", field, data)
+                        PutData("http://192.168.1.27:8000/api/login", "POST", field, data)
                     if (putData.startPut()) {
                         if (putData.onComplete()) {
                             progressBar!!.visibility = View.GONE
                             val result = putData.result
-                            if (result == "Login Success") {
-                                val intent =
-                                    Intent(applicationContext, Register::class.java)
+                            if (result != null) {
+                                val intent = Intent(applicationContext, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             } else {
                                 Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT)
                                     .show()
                             }
-                            if (result != null) {
-                                Log.i("PutData", result)
-                            }
+                            Log.i("PutData", result)
                         }
                     }
                 }
